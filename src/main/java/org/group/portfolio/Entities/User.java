@@ -11,19 +11,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User
 {
     @Id
-    private int Id;
+    private String Id;
     private String name;
 
-    public User(int id, String name) {
+    public User(String id, String name) {
         Id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         Id = id;
     }
 

@@ -17,6 +17,8 @@ public class UserWs {
     @ResponseStatus(HttpStatus.CREATED)
     public String createUser(@RequestBody UserDto userDto)
     {
+        System.out.println(userDto.getId());
+        System.out.println(userDto.getName());
        return userService.createUser(userDto);
     }
 

@@ -18,11 +18,12 @@ public class UserService {
         try
         {
             User ussr = User.builder()
+                    .Id(userDto.getId())
                     .name(userDto.getName()).build();
             userRepository.save(ussr);
         } catch(Exception e)
         {
-
+           return "Faulty : " + e.getMessage();
         }
         return "created";
     }

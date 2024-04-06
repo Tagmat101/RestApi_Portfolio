@@ -18,7 +18,7 @@ public class UserWs {
     public String createUser(@RequestBody UserDto userDto)
     {
         System.out.println(userDto.getId());
-        System.out.println(userDto.getName());
+        System.out.println("");
        return userService.createUser(userDto);
     }
 }

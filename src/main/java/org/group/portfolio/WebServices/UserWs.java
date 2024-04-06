@@ -21,5 +21,4 @@ public class UserWs {
         System.out.println(userDto.getName());
        return userService.createUser(userDto);
     }
-
 }

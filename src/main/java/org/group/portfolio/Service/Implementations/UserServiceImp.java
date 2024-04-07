@@ -1,20 +1,17 @@
-package org.group.portfolio.Service;
+package org.group.portfolio.Service.Implementations;
 
 import org.group.portfolio.Dto.UserDto;
 import org.group.portfolio.Entities.User;
 import org.group.portfolio.Respository.UserRepository;
+import org.group.portfolio.Service.Interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Service
-public class UserService {
+public class UserServiceImp implements UserService {
     @Autowired
     private UserRepository userRepository;
-    public String createUser(@RequestBody UserDto userDto) {
+    public String createUser(UserDto userDto) {
         try
         {
             User ussr = User.builder()
@@ -23,7 +20,7 @@ public class UserService {
             userRepository.save(ussr);
         } catch(Exception e)
         {
-           return "Faulty : " + e.getMessage();
+            return "Faulty : " + e.getMessage();
         }
         return "created";
     }

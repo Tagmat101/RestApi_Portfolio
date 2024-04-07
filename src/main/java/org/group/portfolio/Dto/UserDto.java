@@ -1,14 +1,15 @@
 package org.group.portfolio.Dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
-    private String id;
     private String name;
-
-    public UserDto(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    private String email;
+    private String password;
+    private String tel;
 }

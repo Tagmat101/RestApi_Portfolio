@@ -2,26 +2,25 @@ package org.group.portfolio.Service.Implementations;
 
 import org.group.portfolio.Dto.UserDto;
 import org.group.portfolio.Entities.User;
+import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Respository.UserRepository;
 import org.group.portfolio.Service.Interfaces.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserServiceImp implements UserService {
     @Autowired
     private UserRepository userRepository;
-    public String createUser(UserDto userDto) {
-        try
-        {
-            User ussr = User.builder()
-                    .Id(userDto.getId())
-                    .name(userDto.getName()).build();
-            userRepository.save(ussr);
-        } catch(Exception e)
-        {
-            return "Faulty : " + e.getMessage();
-        }
-        return "created";
+    ModelMapper modelMapper = new ModelMapper();
+    public User SaveUser(UserDto userDto) {
+        User user = modelMapper.map(userDto, User.class);
+
+        if(userRepository.findByEmail(user.getEmail()) != null) throw new AppException("This user already exist with this email");
+        return userRepository.save(user);
     }
+
 }

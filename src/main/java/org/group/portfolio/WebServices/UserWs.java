@@ -30,4 +30,11 @@ public class UserWs {
         ApiResponse<User> response = new ApiResponse<>(200, "User Logged in successfully", user);
         return ResponseEntity.ok(response);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<User>> Update(@PathVariable String id , @RequestBody UserDto userDto)
+    {
+        User user = userService.UpdateUser(id,userDto);
+        ApiResponse<User> response = new ApiResponse<>(200, "User updated successfully", user);
+        return ResponseEntity.ok(response);
+    }
 }

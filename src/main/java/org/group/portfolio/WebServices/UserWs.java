@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class  UserWs {
     @Autowired // it will call the specific class that implements this interface in this case it's UserServiceiMP
     private UserService userService;
-    ModelMapper modelMapper = new ModelMapper();
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<User>> SignUp(@RequestBody UserDto userDto)
     {

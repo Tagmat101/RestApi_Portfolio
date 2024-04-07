@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.ArrayList;
+import java.util.List;
 @Service
 public class UserService {
     @Autowired
@@ -25,5 +27,16 @@ public class UserService {
            return "Faulty : " + e.getMessage();
         }
         return "created";
+    }
+
+    public List<UserDto> getAllUsers() {
+        List<UserDto> users = new ArrayList<>();
+        users.add(new UserDto("John", "Doe"));
+        users.add(new UserDto("Alice", "Smith"));
+        // Add more users as needed
+        return users;
+    }
+    public UserDto getUserById(String id) {
+        return null;
     }
 }

@@ -23,4 +23,10 @@ public class UserServiceImp implements UserService {
         return userRepository.save(user);
     }
 
+    public User AuthenticateUser(String email)
+    {
+        User user = userRepository.findByEmail(email);
+        if(user == null) throw new AppException("No User found with this email");
+        return user;
+    }
 }

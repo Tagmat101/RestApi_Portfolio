@@ -3,6 +3,7 @@ package org.group.portfolio.Service.Implementations;
 import org.group.portfolio.Dto.UserDto;
 import org.group.portfolio.Entities.User;
 import org.group.portfolio.Exceptions.AppException;
+import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Respository.UserRepository;
 import org.group.portfolio.Service.Interfaces.UserService;
 import org.modelmapper.ModelMapper;
@@ -19,7 +20,6 @@ public class UserServiceImp implements UserService {
     public User SaveUser(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
 
-        if(userRepository.findByEmail(user.getEmail()) != null) throw new AppException("This user already exist with this email");
         return userRepository.save(user);
     }
 
@@ -27,6 +27,17 @@ public class UserServiceImp implements UserService {
     {
         User user = userRepository.findByEmail(email);
         if(user == null) throw new AppException("No User found with this email");
+        return user;
+    }
+
+    @Override
+    public User UpdateUser(String id, UserDto userDto) {
+        User user = userRepository.findById(id).orElse(null);
+        if(user == null) throw new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        user.setEmail(userDto.getEmail());
+        user.setTel(userDto.getTel());
+        user.setName(userDto.getName());
+        userRepository.save(user);
         return user;
     }
 }

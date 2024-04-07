@@ -5,4 +5,5 @@ import org.group.portfolio.Entities.User;
 
 public interface UserService {
     public User SaveUser(UserDto userDto);
+    public User AuthenticateUser(String email);
 }

@@ -1,7 +1,6 @@
 package org.group.portfolio.WebServices;
 import org.group.portfolio.Dto.UserDto;
 import org.group.portfolio.Entities.User;
-import org.group.portfolio.Request.UserRequest;
 import org.group.portfolio.Response.ApiResponse;
 import org.group.portfolio.Service.Interfaces.UserService;
 import org.modelmapper.ModelMapper;
@@ -17,18 +16,18 @@ public class UserWs {
     private UserService userService;
     ModelMapper modelMapper = new ModelMapper();
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<String>> SignUp(@RequestBody UserRequest userRequest)
+    public ResponseEntity<ApiResponse<User>> SignUp(@RequestBody UserDto userDto)
     {
-       UserDto userDto = modelMapper.map(userRequest, UserDto.class);
-       User user = userService.SaveUser(userDto);
-       ApiResponse<String> response = new ApiResponse<>(200, "User Created  successfully", user.getId());
+       User save = userService.SaveUser(userDto);
+       ApiResponse<User> response = new ApiResponse<>(200, "User Created  successfully", save);
        return ResponseEntity.ok(response);
     }
     @PostMapping("/signin")
-    public ResponseEntity<ApiResponse<String>> Login(@RequestBody UserDto userDto)
+    public ResponseEntity<ApiResponse<User>> Login(@RequestBody UserDto userDto)
     {
-        User user = userService.SaveUser(userDto);
-        ApiResponse<String> response = new ApiResponse<>(200, "User Logged in successfully", user.toString());
+        String email = userDto.getEmail();
+        User user = userService.AuthenticateUser(email);
+        ApiResponse<User> response = new ApiResponse<>(200, "User Logged in successfully", user);
         return ResponseEntity.ok(response);
     }
 }

@@ -6,13 +6,12 @@ import org.group.portfolio.Response.ApiResponse;
 import org.group.portfolio.Service.Interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserWs {
+public class  UserWs {
     @Autowired // it will call the specific class that implements this interface in this case it's UserServiceiMP
     private UserService userService;
     ModelMapper modelMapper = new ModelMapper();

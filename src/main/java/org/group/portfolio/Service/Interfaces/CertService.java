@@ -4,6 +4,7 @@ import org.group.portfolio.Dto.CertDto;
 import org.group.portfolio.Entities.Certification;
 import org.group.portfolio.Service.Enum.CertCategory;
 
+import java.util.Date;
 import java.util.Vector;
 public interface CertService {
     public Certification SaveCert(CertDto certDto);

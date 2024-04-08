@@ -1,8 +1,9 @@
 package org.group.portfolio.Dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.group.portfolio.Service.Enum.CertCategory;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Vector;
@@ -17,4 +18,6 @@ public class CertDto {
     private String date;
     private String url_cert;
     private Vector<CertCategory> category = new Vector<CertCategory>();
+
+
 }

@@ -1,14 +1,11 @@
 package org.group.portfolio.WebServices;
 
 import org.group.portfolio.Dto.EducationDto;
-import org.group.portfolio.Dto.UserDto;
 import org.group.portfolio.Entities.Education;
-import org.group.portfolio.Entities.User;
-import org.group.portfolio.Respository.UserRepository;
-import org.group.portfolio.Service.EducationService;
-import org.group.portfolio.Service.UserService;
+import org.group.portfolio.Response.ApiResponse;
+import org.group.portfolio.Service.Implementations.EducationServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,35 +14,42 @@ import java.util.List;
 @RequestMapping("/api/education")
 public class EducationWs {
     @Autowired
-    private EducationService educationService;
+    private EducationServiceImp educationService;
 
     @PostMapping("/create")
-    @ResponseStatus(HttpStatus.CREATED)
-    public String createEducation(@RequestBody EducationDto educationDto) {
-        System.out.println(educationDto.getId());
-        System.out.println("");
-        return educationService.createEducation(educationDto);
+    public ResponseEntity<ApiResponse<Education>> createEducation(@RequestBody EducationDto educationDto) {
+        Education save = educationService.Create(educationDto);
+        ApiResponse<Education> response = new ApiResponse<>(200, "Education Created successfully", save);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public EducationDto getUserById(@PathVariable("id") String id) {
-        return educationService.getEducationById(id);
+    public  ResponseEntity<ApiResponse<Education>> getUserById(@PathVariable("id") String id) {
+
+        Education education = educationService.GetById(id);
+        ApiResponse<Education> response = new ApiResponse<>(200, "Education found successfully", education);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/all")
-    public List<EducationDto> getAllEducations() {
-        return educationService.getAllEducation();
+    public ResponseEntity<ApiResponse<List<Education>>>  getAllEducations() {
+        List<Education> eduList = educationService.GetAll();
+        ApiResponse< List<Education>> response = new ApiResponse<>(200, "Education List", eduList);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public String updateEducation(@PathVariable("id") String id, @RequestBody EducationDto updatedEducationDto) {
-        System.out.println("Updating education record");
-        return educationService.updateEducation(id, updatedEducationDto);
+    public ResponseEntity<ApiResponse<Education>> updateEducation(@PathVariable("id") String id, @RequestBody EducationDto updatedEducationDto) {
+        Education education = educationService.Update(id,updatedEducationDto);
+        ApiResponse<Education> response = new ApiResponse<>(200, "Education updated successfully", education);
+        return ResponseEntity.ok(response);
     }
 
+
     @DeleteMapping("/{id}")
-    public String deleteEducation(@PathVariable("id") String id) {
-        System.out.println("Deleting education record"+id);
-        return educationService.deleteEducation(id);
+    public ResponseEntity<ApiResponse<String>> deleteEducation(@PathVariable("id") String id) {
+        System.out.println("Deleting education record " + id);
+        String deletedID = educationService.Delete(id);
+        return ResponseEntity.ok(new ApiResponse<>(200, "Education deleted successfully", deletedID));
     }
 }

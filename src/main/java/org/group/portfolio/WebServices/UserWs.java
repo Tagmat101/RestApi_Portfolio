@@ -4,7 +4,6 @@ import org.group.portfolio.Dto.UserDto;
 import org.group.portfolio.Entities.User;
 import org.group.portfolio.Response.ApiResponse;
 import org.group.portfolio.Service.Interfaces.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +24,7 @@ public class  UserWs {
     public ResponseEntity<ApiResponse<User>> Login(@RequestBody UserDto userDto)
     {
         String email = userDto.getEmail();
-        User user = userService.AuthenticateUser(email);
+        User user = userService.AuthenticateUser(userDto);
         ApiResponse<User> response = new ApiResponse<>(200, "User Logged in successfully", user);
         return ResponseEntity.ok(response);
     }
@@ -35,5 +34,12 @@ public class  UserWs {
         User user = userService.UpdateUser(id,userDto);
         ApiResponse<User> response = new ApiResponse<>(200, "User updated successfully", user);
         return ResponseEntity.ok(response);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> Delete(@PathVariable String id)
+    {
+        userService.DeleteUser(id);
+        ApiResponse<String> apiResponse = new ApiResponse<>(200, "User deleted successfully", null);
+        return ResponseEntity.ok(apiResponse);
     }
 }

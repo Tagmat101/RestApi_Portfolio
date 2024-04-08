@@ -59,7 +59,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User SearchUser(String email) {
-        return userRepository.findByEmail(email);
+    public User GetUserById(String _id) {
+        return userRepository.findById(_id).orElse(null);
     }
 }

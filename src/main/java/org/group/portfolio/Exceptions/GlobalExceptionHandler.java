@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorMessage handleException(Exception ex) {
-        return new ErrorMessage(new Date(), "An unexpected error occurred");
+        return new ErrorMessage(new Date(), "An unexpected error occurred :" + ex.getMessage() );
     }
 
     @ExceptionHandler(AppException.class)

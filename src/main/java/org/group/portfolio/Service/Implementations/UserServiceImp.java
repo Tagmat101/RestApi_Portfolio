@@ -42,9 +42,7 @@ public class UserServiceImp implements UserService {
     public User UpdateUser(String id, UserDto userDto) {
         User user = userRepository.findById(id).orElse(null);
         if(user == null) throw new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
-        user.setEmail(userDto.getEmail());
-        user.setTel(userDto.getTel());
-        user.setName(userDto.getName());
+        modelMapper.map(userDto,user);
         userRepository.save(user);
         return user;
     }
@@ -58,5 +56,10 @@ public class UserServiceImp implements UserService {
         User user = userRepository.findById(id).orElse(null);
         if(user == null) throw new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
         userRepository.deleteById(user.getId());
+    }
+
+    @Override
+    public User SearchUser(String email) {
+        return userRepository.findByEmail(email);
     }
 }

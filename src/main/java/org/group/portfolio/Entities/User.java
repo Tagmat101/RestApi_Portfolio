@@ -1,45 +1,23 @@
 package org.group.portfolio.Entities;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import org.springframework.data.mongodb.core.index.Indexed;
 @Document(collection = "Users")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Builder
 public class User
 {
     @Id
-    private String Id;
+    private String id;
     private String name;
+    private String password;
+    private String tel;
+    @Indexed(unique = true)
+    private String email;
 
-    public User(String id, String name) {
-        Id = id;
-        this.name = name;
-    }
-
-    public String getId() {
-        return Id;
-    }
-
-    public void setId(String id) {
-        Id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "Id=" + Id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

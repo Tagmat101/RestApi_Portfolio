@@ -1,35 +1,40 @@
 package org.group.portfolio.WebServices;
-
 import org.group.portfolio.Dto.UserDto;
 import org.group.portfolio.Entities.User;
-import org.group.portfolio.Respository.UserRepository;
-import org.group.portfolio.Service.UserService;
+import org.group.portfolio.Response.ApiResponse;
+import org.group.portfolio.Service.Interfaces.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserWs {
-    @Autowired
+    @Autowired // it will call the specific class that implements this interface in this case it's UserServiceiMP
     private UserService userService;
-
-    @PostMapping("/create")
-    @ResponseStatus(HttpStatus.CREATED)
-    public String createUser(@RequestBody UserDto userDto) {
-        System.out.println(userDto.getId());
-        return userService.createUser(userDto);
+    ModelMapper modelMapper = new ModelMapper();
+    @PostMapping("/signup")
+    public ResponseEntity<ApiResponse<User>> SignUp(@RequestBody UserDto userDto)
+    {
+       User save = userService.SaveUser(userDto);
+       ApiResponse<User> response = new ApiResponse<>(200, "User Created  successfully", save);
+       return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/{id}")
-    public UserDto getUserById(@PathVariable("id") String id) {
-        return userService.getUserById(id);
+    @PostMapping("/signin")
+    public ResponseEntity<ApiResponse<User>> Login(@RequestBody UserDto userDto)
+    {
+        String email = userDto.getEmail();
+        User user = userService.AuthenticateUser(email);
+        ApiResponse<User> response = new ApiResponse<>(200, "User Logged in successfully", user);
+        return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/all")
-    public List<UserDto> getAllUsers() {
-        return userService.getAllUsers();
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<User>> Update(@PathVariable String id , @RequestBody UserDto userDto)
+    {
+        User user = userService.UpdateUser(id,userDto);
+        ApiResponse<User> response = new ApiResponse<>(200, "User updated successfully", user);
+        return ResponseEntity.ok(response);
     }
 }

@@ -1,13 +1,11 @@
 package org.group.portfolio.Config;
-import org.group.portfolio.Dto.EducationDto;
-import org.group.portfolio.Dto.ExperienceDto;
-import org.group.portfolio.Dto.UserDto;
-import org.group.portfolio.Entities.Education;
-import org.group.portfolio.Entities.Experience;
-import org.group.portfolio.Entities.User;
+import org.group.portfolio.Dto.*;
+import org.group.portfolio.Entities.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class ModelMapperConfig {
@@ -25,8 +23,10 @@ public class ModelMapperConfig {
 
         modelMapper.createTypeMap(Education.class, EducationDto.class);
         modelMapper.createTypeMap(Experience.class, ExperienceDto.class);
+        modelMapper.createTypeMap(Project.class, ProjectDto.class);
 
-
+        modelMapper.createTypeMap(Portfolio.class, PortfolioDto.class)
+                .addMapping(Portfolio::getUser,PortfolioDto::setUser);
         return modelMapper;
     }
 }

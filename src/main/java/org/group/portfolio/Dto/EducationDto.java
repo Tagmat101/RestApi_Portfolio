@@ -9,7 +9,6 @@ import org.group.portfolio.Entities.Education;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EducationDto {
-    private String id;
     private String institution;
     private String degree;
     private int startYear;

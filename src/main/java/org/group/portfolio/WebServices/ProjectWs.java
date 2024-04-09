@@ -65,7 +65,6 @@ public class ProjectWs {
         return ResponseEntity.ok(response);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deleteEducation(@PathVariable("id") String id,@RequestHeader("Authorization") String token) {
         if(!jwtUtil.validateToken(token)){
@@ -76,4 +75,5 @@ public class ProjectWs {
         String deletedID = projectService.Delete(id);
         return ResponseEntity.ok(new ApiResponse<>(200, "Project deleted successfully", deletedID));
     }
+
 }

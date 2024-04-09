@@ -11,7 +11,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjectDto {
-    private String id;
     private String link;
     private String name;
     private String description;

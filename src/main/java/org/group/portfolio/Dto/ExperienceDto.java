@@ -12,7 +12,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExperienceDto {
-    private String id;
     private String companyName;
     private String jobTitle;
     private Date startDate;

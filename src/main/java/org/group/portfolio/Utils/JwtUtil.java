@@ -1,6 +1,7 @@
 package org.group.portfolio.Utils;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,12 +18,12 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expiration;
 
-    public String generateToken(String email) {
+    public String generateToken(String _id) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
 
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(_id)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
@@ -32,21 +33,38 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            System.out.println(token);
+            if (token == null || token.isEmpty()) {
+                System.out.println("Token is null or empty.");
+                return false;
+            }
+
+            if (secret == null || secret.isEmpty()) {
+                System.out.println("Secret key is null or empty.");
+                return false;
+            }
+            if (token.startsWith("Bearer ")) { // just for postman
+                token = token.substring(7);
+            }
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+
             return true;
         } catch (Exception ex) {
+            System.out.println("Error validating token: " + ex.getMessage());
             return false;
         }
     }
 
-    public String getEmailFromToken(String token) {
+    public String getIdFromToken(String token) {
         try {
+            if (token.startsWith("Bearer ")) { // just for postman
+                token = token.substring(7);
+            }
             Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
             return claims.getSubject();
         } catch (Exception ex) {
-            // Log the exception for debugging purposes
             ex.printStackTrace();
-            return null; // Handle the error gracefully
+            return null;
         }
     }
 

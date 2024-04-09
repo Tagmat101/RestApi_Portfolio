@@ -8,5 +8,5 @@ public interface UserService {
     public User AuthenticateUser(UserDto userDto);
     public User UpdateUser(String id,UserDto userDto);
     public void DeleteUser(String id);
-    public User SearchUser(String email);
+    public User GetUserById(String _id);
 }

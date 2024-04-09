@@ -2,6 +2,7 @@ package org.group.portfolio.WebServices;
 import org.group.portfolio.Dto.UserDto;
 import org.group.portfolio.Entities.User;
 import org.group.portfolio.Response.ApiResponse;
+import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Service.Interfaces.UserService;
 import org.group.portfolio.Utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,43 +26,44 @@ public class UserWs {
 
     @PostMapping("/signin")
     public ResponseEntity<ApiResponse<String>> Login(@RequestBody UserDto userDto) {
-        System.out.println("hna" + userDto);
         User user = userService.AuthenticateUser(userDto);
         String token = jwtUtil.generateToken(user.getId());
+        System.out.println("generated : " + token);
         ApiResponse<String> response = new ApiResponse<>(200, "User Logged in successfully", token);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<User>> Update(@PathVariable String id, @RequestBody UserDto userDto) {
-
+    public ResponseEntity<ApiResponse<User>> Update(@PathVariable String id, @RequestBody UserDto userDto,@RequestHeader("Authorization") String token) {
+        if(!jwtUtil.validateToken(token)){
+            ApiResponse<User> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
+        }
         User user = userService.UpdateUser(id, userDto);
         ApiResponse<User> response = new ApiResponse<>(200, "User updated successfully", user);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> Delete(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<String>> Delete(@PathVariable String id,@RequestHeader("Authorization") String token) {
+        if(!jwtUtil.validateToken(token)){
+            ApiResponse<String> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
+        }
         userService.DeleteUser(id);
         ApiResponse<String> apiResponse = new ApiResponse<>(200, "User deleted successfully", null);
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/details")
-    public ResponseEntity<ApiResponse<User>> Details(@RequestHeader("Authorization") String token) {
-        User user = userService.SearchUser("userEmail");
-
-        if (user == null) {
-            ApiResponse<User> notFoundResponse = new ApiResponse<>(404, "User not found", null);
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<User>> GetUserById(@PathVariable String id, @RequestHeader("Authorization") String token) {
+        User user = userService.GetUserById(id);
+        if(!jwtUtil.validateToken(token)){
+            ApiResponse<User> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
-
-        ApiResponse<User> apiResponse = new ApiResponse<>(200, "Staff found", user);
+        ApiResponse<User> apiResponse = new ApiResponse<>(200, "User found", user);
         return ResponseEntity.ok(apiResponse);
     }
-    @GetMapping("/")
-    public String get(@RequestHeader("Authorization") String token) {
-        System.out.println(token);
-        return "a value";
-    }
+
  }

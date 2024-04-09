@@ -45,11 +45,11 @@ public class ProjectWs {
         return ResponseEntity.ok(response);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deleteEducation(@PathVariable("id") String id) {
         System.out.println("Deleting experience record " + id);
         String deletedID = projectService.Delete(id);
         return ResponseEntity.ok(new ApiResponse<>(200, "Project deleted successfully", deletedID));
     }
+
 }

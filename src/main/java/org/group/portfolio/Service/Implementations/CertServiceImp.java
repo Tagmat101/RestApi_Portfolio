@@ -35,4 +35,11 @@ public class CertServiceImp {
         certRepository.save(cert);
         return cert;
     }
+
+    public Certification DeleteCert(String id) {
+        Certification cert = certRepository.findById(id).orElse(null);
+        if(cert == null) throw new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        certRepository.delete(cert);
+        return cert;
+    }
 }

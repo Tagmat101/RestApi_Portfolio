@@ -14,5 +14,6 @@ import lombok.NoArgsConstructor;
 public class SkillDto {
     private String id;
     private String name;
+    private String icon;
 }
 

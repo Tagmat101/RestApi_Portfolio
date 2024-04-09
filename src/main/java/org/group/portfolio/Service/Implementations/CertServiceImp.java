@@ -27,11 +27,10 @@ public class CertServiceImp {
         Certification cert = certRepository.findById(id).orElse(null);
         if(cert == null) throw new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
         cert.setName(certDto.getName());
-        cert.setCategory(certDto.getCategory());
+        cert.setDate(certDto.getIssue_date());
         cert.setUrl_cert(certDto.getUrl_cert());
         cert.setOrganization(certDto.getOrganization());
-        cert.setCategory(certDto.getCategory());
-        cert.setDate(certDto.getDate());
+        cert.setDate(certDto.getEnd_data());
         certRepository.save(cert);
         return cert;
     }

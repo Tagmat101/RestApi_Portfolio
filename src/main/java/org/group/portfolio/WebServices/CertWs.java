@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Vector;
 
 @RestController
-@RequestMapping("/api/cert")
+@RequestMapping("/api/certification")
 
 public class CertWs {
 
     @Autowired
     private CertService certService;
     ModelMapper modelMapper = new ModelMapper();
-    @PostMapping("/certAdd")
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<Certification>> AddCert(@RequestBody CertDto certDto)
     {
         Certification save = certService.SaveCert(certDto);
@@ -27,7 +27,7 @@ public class CertWs {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/certUpdate/{id}")
+    @PostMapping("/update/{id}")
     private ResponseEntity<ApiResponse<Certification>> UpdateCert(@PathVariable String id ,@RequestBody CertDto certDto)
     {
         Certification updateCert = certService.UpdateCert(id,certDto);
@@ -35,7 +35,7 @@ public class CertWs {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/certDelete/{id}")
+    @PostMapping("/delete/{id}")
     private ResponseEntity<ApiResponse<Certification>> DeleteCert(@PathVariable String id, @RequestBody  CertDto certDto)
     {
         Certification deleteCert = certService.DeleteCert(id, certDto);
@@ -43,7 +43,7 @@ public class CertWs {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/GetCert/{id}")
+    @GetMapping("/GetCert/{id}")
     private ResponseEntity<ApiResponse<Certification>> GetCert(@PathVariable String id, @RequestBody CertDto certDto)
     {
         Certification getCert = certService.GetCert(id, certDto);
@@ -51,7 +51,7 @@ public class CertWs {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/GetAllCerts")
+    @GetMapping("/GetAllCerts")
     private ResponseEntity<ApiResponse<Vector<Certification>>> GetAllCerts(@RequestBody CertDto certDto) {
         Vector<Certification> getAllCerts = certService.GetAllCerts(certDto);
         ApiResponse<Vector<Certification>> response = new ApiResponse<>(200, "Certifications Retrieved successfully", getAllCerts);

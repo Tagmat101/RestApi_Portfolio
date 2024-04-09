@@ -2,7 +2,6 @@ package org.group.portfolio.Entities;
 
 //importing libraries
 import lombok.*;
-import org.group.portfolio.Service.Enum.CertCategory;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -25,7 +24,7 @@ public class Certification {
     private String date;
     @Indexed(unique = true)
     private String url_cert;
-    private Vector<CertCategory> category = new Vector<CertCategory>();
+
 
 
 }

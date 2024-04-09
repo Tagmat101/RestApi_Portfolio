@@ -78,4 +78,11 @@ public class PortfolioServiceImp implements PortfolioService {
         modelMapper.map(portfolioDto,portfolio);
         return portfolioRepository.save(portfolio);
     }
+
+    @Override
+    public void DeletePortfolio(String id) {
+        Portfolio portfolio = portfolioRepository.findById(id).orElseThrow
+                (() -> new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+        portfolioRepository.delete(portfolio);
+    }
 }

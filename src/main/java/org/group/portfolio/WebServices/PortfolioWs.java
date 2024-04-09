@@ -41,7 +41,7 @@ public class PortfolioWs {
          return ResponseEntity.ok(response);
      }
      @PutMapping("/{id}")
-     public ResponseEntity<ApiResponse<Portfolio>> UpdatePortfolio(@PathVariable String id,@RequestBody PortfolioDto portfolioDto,@RequestHeader("Authorization") String token)
+     public ResponseEntity<ApiResponse<Portfolio>> Update(@PathVariable String id,@RequestBody PortfolioDto portfolioDto,@RequestHeader("Authorization") String token)
      {
          if(!jwtUtil.validateToken(token)){
              ApiResponse<Portfolio> notFoundResponse = new ApiResponse<>(401, "UnAuthorized", null);
@@ -50,5 +50,16 @@ public class PortfolioWs {
          Portfolio portfolio = portfolioService.UpdatePortfolio(id,portfolioDto);
          ApiResponse<Portfolio> response = new ApiResponse<>(200, "Portfolio Updated successfully ", portfolio);
          return ResponseEntity.ok(response);
+     }
+     @DeleteMapping("/{id}")
+     public ResponseEntity<ApiResponse<String>> Delete(@PathVariable String id,@RequestHeader("Authorization") String token)
+     {
+        if(!jwtUtil.validateToken(token)){
+            ApiResponse<String> notFoundResponse = new ApiResponse<>(401, "UnAuthorized", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
+        }
+        portfolioService.DeletePortfolio(id);
+        ApiResponse<String> response = new ApiResponse<>(200, "Portfolio Deleted successfully ", id);
+        return ResponseEntity.ok(response);
      }
 }

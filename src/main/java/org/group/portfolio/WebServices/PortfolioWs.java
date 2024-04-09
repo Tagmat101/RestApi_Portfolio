@@ -9,7 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+/*
+    * when getting data with postman it gets a portfolio with the User and that User has history of
+    * created data (Certifications ...) Referenced in the User Model
+    * so when updating in the certification the cache is also update it 
+    *
+*/
 @RestController
 @RequestMapping("/api/portfolio")
 public class PortfolioWs {

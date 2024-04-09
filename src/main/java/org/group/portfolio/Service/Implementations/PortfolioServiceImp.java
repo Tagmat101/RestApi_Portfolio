@@ -33,6 +33,8 @@ public class PortfolioServiceImp implements PortfolioService {
 
     @Override
     public Portfolio savePortfolio(PortfolioDto portfolioDto) {
+
+        //just for test (educations and experiences)....
         //for educations
         List<Education> educations = portfolioDto.getEducations().stream()
                 .map(dto -> modelMapper.map(dto, Education.class))
@@ -46,7 +48,6 @@ public class PortfolioServiceImp implements PortfolioService {
         Portfolio portfolio = modelMapper.map(portfolioDto,Portfolio.class);
         portfolio.setEducations(educations);
         portfolio.setExperiences(experiences);
-
         // throw it to cache getting old cache and postincrement it with the one here:
         User user = userRepository.findById(portfolioDto.getUser().getId()).orElseThrow(() ->
                 new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));

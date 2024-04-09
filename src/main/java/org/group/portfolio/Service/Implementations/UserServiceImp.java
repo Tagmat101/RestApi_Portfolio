@@ -32,16 +32,17 @@ public class UserServiceImp implements UserService {
         }
 
         if (BCrypt.checkpw(userDto.getPassword(), user.getPassword())) {
+            //get the cache :
+
             return user;
         }
-
         throw new AppException("Password Incorrect");
     }
 
     @Override
     public User UpdateUser(String id, UserDto userDto) {
-        User user = userRepository.findById(id).orElse(null);
-        if(user == null) throw new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
         modelMapper.map(userDto,user);
         userRepository.save(user);
         return user;
@@ -53,13 +54,15 @@ public class UserServiceImp implements UserService {
           find it first then delete (not using deleteById considered as a mistake because
           there is a possibility that we can not have that id provided )
          */
-        User user = userRepository.findById(id).orElse(null);
-        if(user == null) throw new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
         userRepository.deleteById(user.getId());
     }
 
     @Override
     public User GetUserById(String _id) {
-        return userRepository.findById(_id).orElse(null);
+        return userRepository.findById(_id).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
     }
 }
+

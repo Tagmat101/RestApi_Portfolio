@@ -70,4 +70,12 @@ public class PortfolioServiceImp implements PortfolioService {
         return portfolioRepository.findById(id).orElseThrow(()
                 ->  new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
     }
+
+    @Override
+    public Portfolio UpdatePortfolio(String id,PortfolioDto portfolioDto) {
+        Portfolio portfolio = portfolioRepository.findById(id).orElseThrow
+                (() -> new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+        modelMapper.map(portfolioDto,portfolio);
+        return portfolioRepository.save(portfolio);
+    }
 }

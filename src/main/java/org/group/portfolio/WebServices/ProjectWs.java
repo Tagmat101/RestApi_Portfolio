@@ -51,4 +51,5 @@ public class ProjectWs {
         String deletedID = projectService.Delete(id);
         return ResponseEntity.ok(new ApiResponse<>(200, "Project deleted successfully", deletedID));
     }
+
 }

@@ -40,4 +40,15 @@ public class PortfolioWs {
          ApiResponse<Portfolio> response = new ApiResponse<>(200, "Portfolio Found ", portfolio);
          return ResponseEntity.ok(response);
      }
+     @PutMapping("/{id}")
+     public ResponseEntity<ApiResponse<Portfolio>> UpdatePortfolio(@PathVariable String id,@RequestBody PortfolioDto portfolioDto,@RequestHeader("Authorization") String token)
+     {
+         if(!jwtUtil.validateToken(token)){
+             ApiResponse<Portfolio> notFoundResponse = new ApiResponse<>(401, "UnAuthorized", null);
+             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
+         }
+         Portfolio portfolio = portfolioService.UpdatePortfolio(id,portfolioDto);
+         ApiResponse<Portfolio> response = new ApiResponse<>(200, "Portfolio Updated successfully ", portfolio);
+         return ResponseEntity.ok(response);
+     }
 }

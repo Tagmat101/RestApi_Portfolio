@@ -6,6 +6,7 @@ import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Respository.*;
 import org.group.portfolio.Service.Interfaces.PortfolioService;
+import org.group.portfolio.Utils.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,10 +31,10 @@ public class PortfolioServiceImp implements PortfolioService {
     private ModelMapper modelMapper;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    JwtUtil jwtUtil;
     @Override
-    public Portfolio savePortfolio(PortfolioDto portfolioDto) {
-
+    public Portfolio savePortfolio(PortfolioDto portfolioDto,String token) {
         //just for test (educations and experiences)....
         //for educations
         List<Education> educations = portfolioDto.getEducations().stream()
@@ -43,13 +44,13 @@ public class PortfolioServiceImp implements PortfolioService {
         List<Experience> experiences = portfolioDto.getExperiences().stream()
                         .map(dto -> modelMapper.map(dto,Experience.class))
                         .collect(Collectors.toList());
-        educationRepository.saveAll(educations);
-        experienceRepository.saveAll(experiences);
         Portfolio portfolio = modelMapper.map(portfolioDto,Portfolio.class);
         portfolio.setEducations(educations);
         portfolio.setExperiences(experiences);
         // throw it to cache getting old cache and postincrement it with the one here:
-        User user = userRepository.findById(portfolioDto.getUser().getId()).orElseThrow(() ->
+        //provide the token from frontend no need from decoding there:
+        String id = jwtUtil.getIdFromToken(token);
+        User user = userRepository.findById(id).orElseThrow(() ->
                 new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
        if(user.getEducationsCache() != null && user.getExperiencesCache() != null)
        {
@@ -60,7 +61,7 @@ public class PortfolioServiceImp implements PortfolioService {
            user.setEducationsCache(educations);
            user.setExperiencesCache(experiences);
        }
-
+        portfolio.setUser(user);
         userRepository.save(user);
         return portfolioRepository.save(portfolio);
     }
@@ -73,9 +74,15 @@ public class PortfolioServiceImp implements PortfolioService {
     }
 
     @Override
-    public Portfolio UpdatePortfolio(String id,PortfolioDto portfolioDto) {
+    public Portfolio UpdatePortfolio(String id,PortfolioDto portfolioDto,String token) {
+        System.out.println(portfolioDto);
+        String idUser = jwtUtil.getIdFromToken(token);
+        User user = userRepository.findById(idUser).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
         Portfolio portfolio = portfolioRepository.findById(id).orElseThrow
                 (() -> new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+        System.out.println(portfolioDto.getUser());
+        portfolioDto.setUser(user);
         modelMapper.map(portfolioDto,portfolio);
         return portfolioRepository.save(portfolio);
     }
@@ -85,5 +92,13 @@ public class PortfolioServiceImp implements PortfolioService {
         Portfolio portfolio = portfolioRepository.findById(id).orElseThrow
                 (() -> new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
         portfolioRepository.delete(portfolio);
+    }
+    @Override
+    public List<Portfolio> GetAllByUser(String token)
+    {
+        String id = jwtUtil.getIdFromToken(token);
+        User user = userRepository.findById(id).orElseThrow
+                (() -> new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+        return portfolioRepository.findAllByUser(user);
     }
 }

@@ -24,4 +24,3 @@ public class Education {
     private String location;
     private String description;
 }
-

@@ -56,11 +56,23 @@ public class CategoriePortServiceImp implements CategoriePortService {
         System.out.println("Updating categorie : " + categoriePortDto);
         CategoriePort categoriePort = categoriePortRepository.findById(categoriePortDto.getId()).orElseThrow(() ->
                 new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+        if(categoriePort.isState() != categoriePortDto.isState())
+        {
+            if(!categoriePortDto.isState() && categoriePort.isState())
+            {
+                List<Portfolio> portfolios = portfolioRepository.findAllByCategorie(categoriePort);
+                System.out.println(portfolios);
+                if(!portfolios.isEmpty())
+                   throw new AppException("Can't turn off this category already in use");
+            }
+        }
         modelMapper.map(categoriePortDto, categoriePort);
+
         String id = jwtUtil.getIdFromToken(token);
         User user = userRepository.findById(id).orElseThrow(() ->
                 new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
         categoriePort.setUser(user);
+
         return categoriePortRepository.save(categoriePort);
     }
     public void Delete(String id)

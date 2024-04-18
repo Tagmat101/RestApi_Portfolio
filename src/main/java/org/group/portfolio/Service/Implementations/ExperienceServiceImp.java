@@ -5,14 +5,14 @@ import org.group.portfolio.Entities.Experience;
 import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Respository.ExperienceRepository;
-import org.group.portfolio.Service.Interfaces.IExperienceService;
+import org.group.portfolio.Service.Interfaces.ExperienceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class ExperienceServiceImp implements IExperienceService {
+public class ExperienceServiceImp implements ExperienceService {
     @Autowired
     private ExperienceRepository experienceRepository;
     ModelMapper modelMapper = new ModelMapper();
@@ -47,7 +47,15 @@ public class ExperienceServiceImp implements IExperienceService {
 
         // Update education object with fields from educationDto
         modelMapper.map(educationDto, education);
-
+        if (educationDto.getResponsibilities() != null) {
+            education.setResponsibilities(educationDto.getResponsibilities());
+        }
+        if (educationDto.getAchievements() != null) {
+            education.setAchievements(educationDto.getAchievements());
+        }
+        if (educationDto.getSkills() != null) {
+            education.setSkills(educationDto.getSkills());
+        }
         return experienceRepository.save(education);
     }
 

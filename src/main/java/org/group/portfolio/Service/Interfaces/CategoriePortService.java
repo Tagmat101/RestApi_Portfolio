@@ -8,4 +8,7 @@ import java.util.List;
 public interface CategoriePortService  {
     public CategoriePort Create(CategoriePortDto categoriePortDto,String token);
     public List<CategoriePort> GetAllByUser(String id);
+    public List<CategoriePort> GetAllByUserActive(String id);
+    public CategoriePort Update(CategoriePortDto categoriePortDto,String token);
+    public void Delete(String id);
 }

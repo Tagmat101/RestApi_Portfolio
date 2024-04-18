@@ -50,7 +50,7 @@ public class UserWs {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
         userService.DeleteUser(id);
-        ApiResponse<String> apiResponse = new ApiResponse<>(200, "User deleted successfully", null);
+        ApiResponse<String> apiResponse = new ApiResponse<>(200, "User deleted successfully", id);
         return ResponseEntity.ok(apiResponse);
     }
 

@@ -21,4 +21,5 @@ public class PortfolioDto {
     List<Experience> experiences;
     List<Project> projects;
     List<Education> educations;
+
 }

@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 /*
     * when getting data with postman it gets a portfolio with the User and that User has history of
     * created data (Certifications ...) Referenced in the User Model
@@ -30,7 +33,7 @@ public class PortfolioWs {
              return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
          }
 
-         Portfolio portfolio = portfolioService.savePortfolio(portfolioDto);
+         Portfolio portfolio = portfolioService.savePortfolio(portfolioDto,token);
          ApiResponse<Portfolio> response = new ApiResponse<>(200, "Portfolio Created successfully", portfolio);
          return ResponseEntity.ok(response);
      }
@@ -52,7 +55,7 @@ public class PortfolioWs {
              ApiResponse<Portfolio> notFoundResponse = new ApiResponse<>(401, "UnAuthorized", null);
              return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
          }
-         Portfolio portfolio = portfolioService.UpdatePortfolio(id,portfolioDto);
+         Portfolio portfolio = portfolioService.UpdatePortfolio(id,portfolioDto,token);
          ApiResponse<Portfolio> response = new ApiResponse<>(200, "Portfolio Updated successfully ", portfolio);
          return ResponseEntity.ok(response);
      }
@@ -66,5 +69,16 @@ public class PortfolioWs {
         portfolioService.DeletePortfolio(id);
         ApiResponse<String> response = new ApiResponse<>(200, "Portfolio Deleted successfully ", id);
         return ResponseEntity.ok(response);
+     }
+     @GetMapping("/all")
+     public ResponseEntity<ApiResponse<List<Portfolio>>> GetAllByUser(@RequestHeader("Authorization") String token)
+     {
+         if(!jwtUtil.validateToken(token)){
+             ApiResponse<List<Portfolio>> notFoundResponse = new ApiResponse<>(401, "UnAuthorized", null);
+             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
+         }
+         List<Portfolio> portfolios = portfolioService.GetAllByUser(token);
+         ApiResponse<List<Portfolio>> response = new ApiResponse<>(200, "List of portfolios ", portfolios);
+         return ResponseEntity.ok(response);
      }
 }

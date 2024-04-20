@@ -16,6 +16,6 @@ public class UserDto {
     private String email;
     private String password;
     private String tel;
-    List<Experience> experiencesCache;
-    List<Education> educationsCache;
+//    List<Experience> experiencesCache;
+//    List<Education> educationsCache;
 }

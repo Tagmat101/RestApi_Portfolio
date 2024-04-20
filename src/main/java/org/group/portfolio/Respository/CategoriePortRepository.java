@@ -4,10 +4,12 @@ import org.group.portfolio.Entities.CategoriePort;
 import org.group.portfolio.Entities.Portfolio;
 import org.group.portfolio.Entities.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface PortfolioRepository extends MongoRepository<Portfolio,String> {
-    public List<Portfolio> findAllByUser(User user);
-    public List<Portfolio> findAllByCategorie(CategoriePort categoriePort);
+@Repository
+public interface CategoriePortRepository extends MongoRepository<CategoriePort,String> {
+    public List<CategoriePort> getByUser(User user);
+    public List<CategoriePort> getByUserAndStateIsTrue(User user);
 }

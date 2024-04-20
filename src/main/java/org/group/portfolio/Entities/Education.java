@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 
 @Document(collection = "Education")
 @Data
@@ -16,10 +18,9 @@ public class Education {
     private String id;
     private String institution;
     private String degree;
-    private int startYear;
-    private int endYear;
+    private Date startDate;
+    private Date endDate;
     private String fieldOfStudy;
     private String location;
     private String description;
 }
-

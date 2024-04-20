@@ -1,19 +1,18 @@
 package org.group.portfolio.Service.Implementations;
 
 import org.group.portfolio.Dto.ProjectDto;
-import org.group.portfolio.Dto.ProjectDto;
 import org.group.portfolio.Entities.Project;
 import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Respository.ProjectRepository;
-import org.group.portfolio.Service.Interfaces.IProjectService;
+import org.group.portfolio.Service.Interfaces.ProjectService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class ProjectServiceImp implements IProjectService {
+public class ProjectServiceImp implements ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
     ModelMapper modelMapper = new ModelMapper();
@@ -48,7 +47,15 @@ public class ProjectServiceImp implements IProjectService {
 
         // Update project object with fields from projectDto
         modelMapper.map(projectDto, project);
-
+        if (projectDto.getResponsibilities() != null) {
+            project.setResponsibilities(projectDto.getResponsibilities());
+        }
+        if (projectDto.getAchievements() != null) {
+            project.setAchievements(projectDto.getAchievements());
+        }
+        if (projectDto.getSkills() != null) {
+            project.setSkills(projectDto.getSkills());
+        }
         return projectRepository.save(project);
     }
 

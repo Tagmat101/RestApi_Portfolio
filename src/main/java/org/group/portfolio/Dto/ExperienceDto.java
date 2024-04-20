@@ -14,11 +14,13 @@ import java.util.Date;
 public class ExperienceDto {
     private String companyName;
     private String jobTitle;
+    private String employmentType;
     private Date startDate;
     private Date endDate;
     private String description;
     private String[] responsibilities;
     private String[] achievements;
-    private Skill[] skills;
+    private String[] skills;
+    private String location;
 }
 

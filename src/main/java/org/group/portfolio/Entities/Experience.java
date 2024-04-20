@@ -18,10 +18,12 @@ public class Experience {
     private String companyName;
     private String jobTitle;
     private Date startDate;
+    private String employmentType;
     private Date endDate;
     private String description;
     private String[] responsibilities;
     private String[] achievements;
-    private Skill[] skills;
+    private String[] skills;
+    private String location;
 
 }

@@ -4,7 +4,7 @@ import org.group.portfolio.Entities.Education;
 import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Respository.EducationRepository;
-import org.group.portfolio.Service.Interfaces.EducationService;
+import org.group.portfolio.Service.Interfaces.IEducationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EducationServiceImp implements EducationService {
+public class EducationServiceImp implements IEducationService {
     @Autowired
     private EducationRepository educationRepository;
     ModelMapper modelMapper = new ModelMapper();
@@ -27,7 +27,7 @@ public class EducationServiceImp implements EducationService {
         if (education == null) {
             throw new AppException("Mapping from EducationDto to Education failed");
         }
-        System.out.print(education);
+
         return educationRepository.save(education);
     }
 

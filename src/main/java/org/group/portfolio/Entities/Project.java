@@ -20,7 +20,7 @@ public class Project {
     private String description;
     private Date startDate;
     private Date endDate;
-    private String[] skills;
+    private String[] technologiesUsed;
     private String[] responsibilities;
     private String[] achievements;
 }

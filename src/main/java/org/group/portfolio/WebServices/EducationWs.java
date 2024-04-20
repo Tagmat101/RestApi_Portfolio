@@ -27,10 +27,7 @@ public class EducationWs {
             ApiResponse<Education> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
-
-
         Education save = educationService.Create(educationDto);
-
         ApiResponse<Education> response = new ApiResponse<>(200, "Education Created successfully", save);
         return ResponseEntity.ok(response);
     }

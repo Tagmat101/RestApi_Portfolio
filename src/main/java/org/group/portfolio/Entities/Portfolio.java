@@ -17,9 +17,6 @@ public class Portfolio
 {
     @Id
     private String id;
-    private String color;
-    private String name;
-    private boolean visibility;
     @DBRef
     private User user;
     @DBRef
@@ -30,6 +27,4 @@ public class Portfolio
     List<Skill> skills;
     @DBRef
     List<Education> educations;
-    @DBRef
-    CategoriePort categorie;
 }

@@ -5,14 +5,16 @@ import org.group.portfolio.Entities.Certification;
 import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Respository.CertRepository;
+import org.group.portfolio.Service.Interfaces.CertService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Vector;
+
 @Service
-@Transactional
-public class CertServiceImp {
+public class CertServiceImp implements CertService {
     ModelMapper modelMapper = new ModelMapper();
     @Autowired
     private CertRepository certRepository;
@@ -35,10 +37,18 @@ public class CertServiceImp {
         return cert;
     }
 
-    public Certification DeleteCert(String id) {
-        Certification cert = certRepository.findById(id).orElse(null);
-        if(cert == null) throw new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
-        certRepository.delete(cert);
-        return cert;
+    @Override
+    public Certification GetCert(String id, CertDto certDto) {
+        return null;
+    }
+
+    @Override
+    public Certification DeleteCert(String id, CertDto certDto) {
+        return null;
+    }
+
+    @Override
+    public Vector<Certification> GetAllCerts(CertDto certDto) {
+        return null;
     }
 }

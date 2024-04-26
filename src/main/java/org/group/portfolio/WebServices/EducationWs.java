@@ -28,8 +28,8 @@ public class EducationWs {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
 
-
-        Education save = educationService.Create(educationDto);
+        String id = jwtUtil.getIdFromToken(token);
+        Education save = educationService.Create(educationDto,id);
 
         ApiResponse<Education> response = new ApiResponse<>(200, "Education Created successfully", save);
         return ResponseEntity.ok(response);
@@ -47,12 +47,13 @@ public class EducationWs {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ApiResponse<List<Education>>>  getAllEducations(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<ApiResponse<List<Education>>>  getAllEducationsByUser(@RequestHeader("Authorization") String token) {
         if(!jwtUtil.validateToken(token)){
             ApiResponse<List<Education>> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
-        List<Education> eduList = educationService.GetAll();
+        String id = jwtUtil.getIdFromToken(token);
+        List<Education> eduList = educationService.GetAllByUser(id);
         ApiResponse< List<Education>> response = new ApiResponse<>(200, "Education List", eduList);
         return ResponseEntity.ok(response);
     }

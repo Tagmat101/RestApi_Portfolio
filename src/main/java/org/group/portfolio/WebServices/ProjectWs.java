@@ -27,7 +27,8 @@ public class ProjectWs {
             ApiResponse<Project> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
-        Project save = projectService.Create(projectDto);
+        String id = jwtUtil.getIdFromToken(token);
+        Project save = projectService.Create(projectDto,id);
         ApiResponse<Project> response = new ApiResponse<>(200, "Project Created successfully", save);
         return ResponseEntity.ok(response);
     }
@@ -44,12 +45,13 @@ public class ProjectWs {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ApiResponse<List<Project>>>  getAllEducations(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<ApiResponse<List<Project>>>  getAllEducationsByUser(@RequestHeader("Authorization") String token) {
         if(!jwtUtil.validateToken(token)){
             ApiResponse<List<Project>> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
-        List<Project> eduList = projectService.GetAll();
+        String id = jwtUtil.getIdFromToken(token);
+        List<Project> eduList = projectService.GetAllByUser(id);
         ApiResponse< List<Project>> response = new ApiResponse<>(200, "Project List", eduList);
         return ResponseEntity.ok(response);
     }

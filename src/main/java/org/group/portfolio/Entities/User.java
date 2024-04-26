@@ -23,8 +23,4 @@ public class User
     private String tel;
     @Indexed(unique = true)
     private String email;
-//    @DBRef
-//    List<Education> educationsCache;
-//    @DBRef
-//    List<Experience> experiencesCache;
 }

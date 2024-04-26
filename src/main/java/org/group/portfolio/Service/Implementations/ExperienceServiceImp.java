@@ -1,10 +1,13 @@
 package org.group.portfolio.Service.Implementations;
 
 import org.group.portfolio.Dto.ExperienceDto;
+import org.group.portfolio.Entities.Education;
 import org.group.portfolio.Entities.Experience;
+import org.group.portfolio.Entities.User;
 import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Respository.ExperienceRepository;
+import org.group.portfolio.Respository.UserRepository;
 import org.group.portfolio.Service.Interfaces.ExperienceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +18,25 @@ import java.util.List;
 public class ExperienceServiceImp implements ExperienceService {
     @Autowired
     private ExperienceRepository experienceRepository;
+    @Autowired
+    private UserRepository userRepository;
     ModelMapper modelMapper = new ModelMapper();
 
 
     @Override
-    public Experience Create(ExperienceDto educationDto) {
+    public Experience Create(ExperienceDto educationDto,String id) {
         if (educationDto == null) {
             throw new IllegalArgumentException("ExperienceDto must not be null");
         }
-        Experience education = modelMapper.map(educationDto, Experience.class);
-        if (education == null) {
+        Experience experience = modelMapper.map(educationDto, Experience.class);
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+        experience.setUser(user);
+        if (experience == null) {
             throw new AppException("Mapping from ExperienceDto to Experience failed");
         }
 
-        return experienceRepository.save(education);
+        return experienceRepository.save(experience);
     }
 
     public Experience GetById(String id) {
@@ -68,5 +76,12 @@ public class ExperienceServiceImp implements ExperienceService {
         } else {
             throw new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
         }
+    }
+    @Override
+    public List<Experience> GetAllByUser(String id) {
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+
+        return experienceRepository.findAllByUser(user);
     }
 }

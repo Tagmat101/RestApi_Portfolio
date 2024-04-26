@@ -1,10 +1,13 @@
 package org.group.portfolio.Service.Implementations;
 
 import org.group.portfolio.Dto.ProjectDto;
+import org.group.portfolio.Entities.Education;
 import org.group.portfolio.Entities.Project;
+import org.group.portfolio.Entities.User;
 import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Respository.ProjectRepository;
+import org.group.portfolio.Respository.UserRepository;
 import org.group.portfolio.Service.Interfaces.ProjectService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +18,19 @@ import java.util.List;
 public class ProjectServiceImp implements ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private UserRepository userRepository;
     ModelMapper modelMapper = new ModelMapper();
 
 
     @Override
-    public Project Create(ProjectDto projectDto) {
+    public Project Create(ProjectDto projectDto,String id) {
         if (projectDto == null) {
             throw new IllegalArgumentException("ProjectDto must not be null");
         }
         Project project = modelMapper.map(projectDto, Project.class);
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
         if (project == null) {
             throw new AppException("Mapping from ProjectDto to Project failed");
         }
@@ -68,5 +75,12 @@ public class ProjectServiceImp implements ProjectService {
         } else {
             throw new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
         }
+    }
+    @Override
+    public List<Project> GetAllByUser(String id) {
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+
+        return projectRepository.findAllByUser(user);
     }
 }

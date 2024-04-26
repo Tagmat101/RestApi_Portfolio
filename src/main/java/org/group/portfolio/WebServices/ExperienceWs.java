@@ -27,7 +27,8 @@ public class ExperienceWs {
             ApiResponse<Experience> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
-        Experience save = experienceService.Create(experienceDto);
+        String id = jwtUtil.getIdFromToken(token);
+        Experience save = experienceService.Create(experienceDto,id);
         ApiResponse<Experience> response = new ApiResponse<>(200, "Experience Created successfully", save);
         return ResponseEntity.ok(response);
     }
@@ -44,12 +45,13 @@ public class ExperienceWs {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ApiResponse<List<Experience>>>  getAllEducations(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<ApiResponse<List<Experience>>>  getAllEducationsByUser(@RequestHeader("Authorization") String token) {
         if(!jwtUtil.validateToken(token)){
             ApiResponse<List<Experience>> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
-        List<Experience> eduList = experienceService.GetAll();
+        String id = jwtUtil.getIdFromToken(token);
+        List<Experience> eduList = experienceService.GetAllByUser(id);
         ApiResponse< List<Experience>> response = new ApiResponse<>(200, "Experience List", eduList);
         return ResponseEntity.ok(response);
     }

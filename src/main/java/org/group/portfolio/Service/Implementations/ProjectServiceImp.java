@@ -2,10 +2,12 @@ package org.group.portfolio.Service.Implementations;
 
 import org.group.portfolio.Dto.ProjectDto;
 import org.group.portfolio.Entities.Education;
+import org.group.portfolio.Entities.Portfolio;
 import org.group.portfolio.Entities.Project;
 import org.group.portfolio.Entities.User;
 import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
+import org.group.portfolio.Respository.PortfolioRepository;
 import org.group.portfolio.Respository.ProjectRepository;
 import org.group.portfolio.Respository.UserRepository;
 import org.group.portfolio.Service.Interfaces.ProjectService;
@@ -21,7 +23,8 @@ public class ProjectServiceImp implements ProjectService {
     @Autowired
     private UserRepository userRepository;
     ModelMapper modelMapper = new ModelMapper();
-
+    @Autowired
+    private PortfolioRepository portfolioRepository;
 
     @Override
     public Project Create(ProjectDto projectDto,String id) {
@@ -71,6 +74,15 @@ public class ProjectServiceImp implements ProjectService {
     @Override
     public String Delete(String id) {
         if (projectRepository.existsById(id)) {
+
+            List<Portfolio> portfolios = portfolioRepository.findAll();
+            for(Portfolio portfolio : portfolios)
+            {
+                List<Project> projects = portfolio.getProjects();
+                projects.removeIf(project -> project.getId().equals(id));
+                portfolio.setProjects(projects);
+                portfolioRepository.save(portfolio);
+            }
             projectRepository.deleteById(id);
             return id;
         } else {

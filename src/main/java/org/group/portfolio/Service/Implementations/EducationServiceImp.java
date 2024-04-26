@@ -1,10 +1,13 @@
 package org.group.portfolio.Service.Implementations;
 import org.group.portfolio.Dto.EducationDto;
 import org.group.portfolio.Entities.Education;
+import org.group.portfolio.Entities.Experience;
+import org.group.portfolio.Entities.Portfolio;
 import org.group.portfolio.Entities.User;
 import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Respository.EducationRepository;
+import org.group.portfolio.Respository.PortfolioRepository;
 import org.group.portfolio.Respository.UserRepository;
 import org.group.portfolio.Service.Interfaces.EducationService;
 import org.modelmapper.ModelMapper;
@@ -17,6 +20,8 @@ import java.util.List;
 public class EducationServiceImp implements EducationService {
     @Autowired
     private EducationRepository educationRepository;
+    @Autowired
+    private PortfolioRepository portfolioRepository;
     ModelMapper modelMapper = new ModelMapper();
     @Autowired
     private UserRepository userRepository;
@@ -60,6 +65,16 @@ public class EducationServiceImp implements EducationService {
     @Override
     public String Delete(String id) {
         if (educationRepository.existsById(id)) {
+            //deletin its corresponding portfolios :
+            List<Portfolio> portfolios = portfolioRepository.findAll();
+            for(Portfolio portfolio : portfolios)
+            {
+                List<Education> educations = portfolio.getEducations();
+                educations.removeIf(education -> education.getId().equals(id));
+                portfolio.setEducations(educations);
+                portfolioRepository.save(portfolio);
+            }
+
             educationRepository.deleteById(id);
             return id;
         } else {

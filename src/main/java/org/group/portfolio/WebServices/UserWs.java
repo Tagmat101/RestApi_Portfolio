@@ -27,7 +27,6 @@ public class UserWs {
     public ResponseEntity<ApiResponse<String>> Login(@RequestBody UserDto userDto) {
         User user = userService.AuthenticateUser(userDto);
         String token = jwtUtil.generateToken(user.getId());
-        System.out.println("generated : " + token);
         ApiResponse<String> response = new ApiResponse<>(200, "User Logged in successfully", token);
         return ResponseEntity.ok(response);
     }

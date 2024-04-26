@@ -3,10 +3,12 @@ package org.group.portfolio.Service.Implementations;
 import org.group.portfolio.Dto.ExperienceDto;
 import org.group.portfolio.Entities.Education;
 import org.group.portfolio.Entities.Experience;
+import org.group.portfolio.Entities.Portfolio;
 import org.group.portfolio.Entities.User;
 import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Respository.ExperienceRepository;
+import org.group.portfolio.Respository.PortfolioRepository;
 import org.group.portfolio.Respository.UserRepository;
 import org.group.portfolio.Service.Interfaces.ExperienceService;
 import org.modelmapper.ModelMapper;
@@ -20,6 +22,8 @@ public class ExperienceServiceImp implements ExperienceService {
     private ExperienceRepository experienceRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PortfolioRepository portfolioRepository;
     ModelMapper modelMapper = new ModelMapper();
 
 
@@ -71,6 +75,15 @@ public class ExperienceServiceImp implements ExperienceService {
     @Override
     public String Delete(String id) {
         if (experienceRepository.existsById(id)) {
+
+            List<Portfolio> portfolios = portfolioRepository.findAll();
+            for(Portfolio portfolio : portfolios)
+            {
+                List<Experience> experiences = portfolio.getExperiences();
+                experiences.removeIf(experience -> experience.getId().equals(id));
+                portfolio.setExperiences(experiences);
+                portfolioRepository.save(portfolio);
+            }
             experienceRepository.deleteById(id);
             return id;
         } else {

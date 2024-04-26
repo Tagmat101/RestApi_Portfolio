@@ -76,13 +76,11 @@ public class PortfolioServiceImp implements PortfolioService {
 
     @Override
     public Portfolio UpdatePortfolio(String id,PortfolioDto portfolioDto,String token) {
-        System.out.println(portfolioDto);
         String idUser = jwtUtil.getIdFromToken(token);
         User user = userRepository.findById(idUser).orElseThrow(() ->
                 new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
         portfolioRepository.findById(id).orElseThrow
                 (() -> new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
-        System.out.println(portfolioDto.getUser());
         portfolioDto.setUser(user);
         Portfolio portfolio = modelMapper.map(portfolioDto,Portfolio.class);
         return portfolioRepository.save(portfolio);

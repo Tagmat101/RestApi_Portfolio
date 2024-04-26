@@ -31,6 +31,7 @@ public class ProjectServiceImp implements ProjectService {
         Project project = modelMapper.map(projectDto, Project.class);
         User user = userRepository.findById(id).orElseThrow(() ->
                 new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+        project.setUser(user);
         if (project == null) {
             throw new AppException("Mapping from ProjectDto to Project failed");
         }

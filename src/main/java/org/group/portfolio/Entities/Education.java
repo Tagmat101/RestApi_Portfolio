@@ -2,6 +2,7 @@ package org.group.portfolio.Entities;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -23,4 +24,6 @@ public class Education {
     private String fieldOfStudy;
     private String location;
     private String description;
+    @DBRef
+    private User user;
 }

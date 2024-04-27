@@ -12,9 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class PortfolioDto {
+    String id;
     User user;
-    List<ExperienceDto> experiences;
-    List<ProjectDto> projects;
-    List<SkillDto> skills;
-    List<EducationDto> educations;
+    private String color;
+    private String name;
+    private boolean visibility;
+    private CategoriePort categorie;
+    List<Experience> experiences;
+    List<Project> projects;
+    List<Education> educations;
+
 }

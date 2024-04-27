@@ -1,9 +1,14 @@
 package org.group.portfolio.Service.Implementations;
 import org.group.portfolio.Dto.EducationDto;
 import org.group.portfolio.Entities.Education;
+import org.group.portfolio.Entities.Experience;
+import org.group.portfolio.Entities.Portfolio;
+import org.group.portfolio.Entities.User;
 import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
 import org.group.portfolio.Respository.EducationRepository;
+import org.group.portfolio.Respository.PortfolioRepository;
+import org.group.portfolio.Respository.UserRepository;
 import org.group.portfolio.Service.Interfaces.EducationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +20,20 @@ import java.util.List;
 public class EducationServiceImp implements EducationService {
     @Autowired
     private EducationRepository educationRepository;
+    @Autowired
+    private PortfolioRepository portfolioRepository;
     ModelMapper modelMapper = new ModelMapper();
-
-
+    @Autowired
+    private UserRepository userRepository;
     @Override
-    public Education Create(EducationDto educationDto) {
+    public Education Create(EducationDto educationDto,String id) {
         if (educationDto == null) {
             throw new IllegalArgumentException("EducationDto must not be null");
         }
         Education education = modelMapper.map(educationDto, Education.class);
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+        education.setUser(user);
         if (education == null) {
             throw new AppException("Mapping from EducationDto to Education failed");
         }
@@ -55,11 +65,29 @@ public class EducationServiceImp implements EducationService {
     @Override
     public String Delete(String id) {
         if (educationRepository.existsById(id)) {
+            //deletin its corresponding portfolios :
+            List<Portfolio> portfolios = portfolioRepository.findAll();
+            for(Portfolio portfolio : portfolios)
+            {
+                List<Education> educations = portfolio.getEducations();
+                educations.removeIf(education -> education.getId().equals(id));
+                portfolio.setEducations(educations);
+                portfolioRepository.save(portfolio);
+            }
+
             educationRepository.deleteById(id);
             return id;
         } else {
             throw new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
         }
+    }
+
+    @Override
+    public List<Education> GetAllByUser(String id) {
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+
+        return educationRepository.findAllByUser(user);
     }
     //    @Override
 //    public Education Delete(String id) {

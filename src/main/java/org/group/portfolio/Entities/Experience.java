@@ -2,6 +2,7 @@ package org.group.portfolio.Entities;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -25,5 +26,6 @@ public class Experience {
     private String[] achievements;
     private String[] skills;
     private String location;
-
+    @DBRef
+    private User user;
 }

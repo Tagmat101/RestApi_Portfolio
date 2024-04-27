@@ -23,12 +23,10 @@ public class UserWs {
         ApiResponse<User> response = new ApiResponse<>(200, "User Created successfully", save);
         return ResponseEntity.ok(response);
     }
-
     @PostMapping("/signin")
     public ResponseEntity<ApiResponse<String>> Login(@RequestBody UserDto userDto) {
         User user = userService.AuthenticateUser(userDto);
         String token = jwtUtil.generateToken(user.getId());
-        System.out.println("generated : " + token);
         ApiResponse<String> response = new ApiResponse<>(200, "User Logged in successfully", token);
         return ResponseEntity.ok(response);
     }
@@ -36,7 +34,7 @@ public class UserWs {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<User>> Update(@PathVariable String id, @RequestBody UserDto userDto,@RequestHeader("Authorization") String token) {
         if(!jwtUtil.validateToken(token)){
-            ApiResponse<User> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
+            ApiResponse<User> notFoundResponse = new ApiResponse<>(401, "UnAuthorized", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
         User user = userService.UpdateUser(id, userDto);
@@ -51,7 +49,7 @@ public class UserWs {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
         userService.DeleteUser(id);
-        ApiResponse<String> apiResponse = new ApiResponse<>(200, "User deleted successfully", null);
+        ApiResponse<String> apiResponse = new ApiResponse<>(200, "User deleted successfully", id);
         return ResponseEntity.ok(apiResponse);
     }
 

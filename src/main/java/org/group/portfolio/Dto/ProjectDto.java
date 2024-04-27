@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.group.portfolio.Entities.Skill;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,4 +20,6 @@ public class ProjectDto {
     private String[] skills;
     private String[] responsibilities;
     private String[] achievements;
+    private List<byte[]> images;
+
 }

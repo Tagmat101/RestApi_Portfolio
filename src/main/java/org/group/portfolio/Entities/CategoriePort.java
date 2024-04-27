@@ -5,27 +5,19 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
-
 import java.util.List;
-@Document(collection = "Project")
+
+@Document(collection = "CategoriePort")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Builder
-public class Project {
+public class CategoriePort {
     @Id
     private String id;
-    private String link;
     private String name;
-    private String description;
-    private Date startDate;
-    private Date endDate;
-    private String[] skills;
-    private String[] responsibilities;
-    private String[] achievements;
-    private List<byte[]> images;
+    private boolean state;
     @DBRef
     private User user;
 }

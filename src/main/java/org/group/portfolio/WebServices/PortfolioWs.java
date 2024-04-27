@@ -32,7 +32,7 @@ public class PortfolioWs {
              ApiResponse<Portfolio> notFoundResponse = new ApiResponse<>(401, "UnAuthorized", null);
              return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
          }
-
+         System.out.println(portfolioDto);
          Portfolio portfolio = portfolioService.savePortfolio(portfolioDto,token);
          ApiResponse<Portfolio> response = new ApiResponse<>(200, "Portfolio Created successfully", portfolio);
          return ResponseEntity.ok(response);

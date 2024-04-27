@@ -29,6 +29,7 @@ public class CategoriePortWs {
             ApiResponse<CategoriePort> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
+        System.out.println(categoriePortDto);
         CategoriePort save = categoriePortService.Create(categoriePortDto,token);
         ApiResponse<CategoriePort> response = new ApiResponse<>(200, "Education Created successfully", save);
         return ResponseEntity.ok(response);

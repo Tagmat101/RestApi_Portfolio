@@ -16,7 +16,7 @@ public class PortfolioDto {
     User user;
     private String color;
     private String name;
-    private boolean visibility;
+    private boolean visible;
     private CategoriePort categorie;
     List<Experience> experiences;
     List<Project> projects;

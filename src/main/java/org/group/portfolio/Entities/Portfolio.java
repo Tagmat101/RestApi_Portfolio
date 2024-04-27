@@ -19,7 +19,7 @@ public class Portfolio
     private String id;
     private String color;
     private String name;
-    private boolean visibility;
+    private boolean visible;
     @DBRef
     private User user;
     @DBRef

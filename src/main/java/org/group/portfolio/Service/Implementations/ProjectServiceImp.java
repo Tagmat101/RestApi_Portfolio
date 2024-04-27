@@ -14,6 +14,7 @@ import org.group.portfolio.Service.Interfaces.ProjectService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 @Service
@@ -27,11 +28,14 @@ public class ProjectServiceImp implements ProjectService {
     private PortfolioRepository portfolioRepository;
 
     @Override
-    public Project Create(ProjectDto projectDto,String id) {
+    public Project Create(ProjectDto projectDto, String id) {
         if (projectDto == null) {
             throw new IllegalArgumentException("ProjectDto must not be null");
         }
+        System.out.println(projectDto);
+
         Project project = modelMapper.map(projectDto, Project.class);
+        System.out.println("project :"+project);
         User user = userRepository.findById(id).orElseThrow(() ->
                 new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
         project.setUser(user);

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.group.portfolio.Entities.Education;
 import org.group.portfolio.Entities.Skill;
+import org.group.portfolio.Entities.User;
 
 import java.util.Date;
 
@@ -22,5 +23,6 @@ public class ExperienceDto {
     private String[] achievements;
     private String[] skills;
     private String location;
+    User user;
 }
 

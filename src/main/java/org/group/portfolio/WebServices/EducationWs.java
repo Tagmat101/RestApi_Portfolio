@@ -27,7 +27,6 @@ public class EducationWs {
             ApiResponse<Education> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
-
         String id = jwtUtil.getIdFromToken(token);
         Education save = educationService.Create(educationDto,id);
 

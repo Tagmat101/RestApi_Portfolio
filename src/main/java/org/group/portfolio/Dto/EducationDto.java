@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.group.portfolio.Entities.Education;
+import org.group.portfolio.Entities.User;
 
 import java.util.Date;
 
@@ -18,5 +19,5 @@ public class EducationDto {
     private String fieldOfStudy;
     private String location;
     private String description;
-
+    User user;
 }

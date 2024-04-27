@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
+import java.util.List;
 @Document(collection = "Project")
 @Data
 @AllArgsConstructor
@@ -24,6 +25,7 @@ public class Project {
     private String[] skills;
     private String[] responsibilities;
     private String[] achievements;
+    private List<byte[]> images;
     @DBRef
     private User user;
 }

@@ -3,6 +3,7 @@ package org.group.portfolio.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.group.portfolio.Entities.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Vector;
@@ -18,7 +19,7 @@ public class CertDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String end_data;
     private String url_cert;
-
+    User user;
 
 
 }

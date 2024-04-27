@@ -24,6 +24,8 @@ public class ModelMapperConfig {
         modelMapper.createTypeMap(Education.class, EducationDto.class);
         modelMapper.createTypeMap(Experience.class, ExperienceDto.class);
         modelMapper.createTypeMap(Project.class, ProjectDto.class);
+        modelMapper.createTypeMap(Skill.class, SkillDto.class);
+
         modelMapper.createTypeMap(CategoriePort.class,CategoriePortDto.class);
         modelMapper.createTypeMap(Portfolio.class, PortfolioDto.class)
                 .addMapping(Portfolio::getUser,PortfolioDto::setUser);

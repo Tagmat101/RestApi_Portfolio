@@ -54,12 +54,13 @@ public class UserWs {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<User>> GetUserById(@PathVariable String id, @RequestHeader("Authorization") String token) {
-        User user = userService.GetUserById(id);
+    public ResponseEntity<ApiResponse<User>> GetUserById( @RequestHeader("Authorization") String token) {
         if(!jwtUtil.validateToken(token)){
             ApiResponse<User> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
         }
+        String id = jwtUtil.getIdFromToken(token);
+        User user = userService.GetUserById(id);
         ApiResponse<User> apiResponse = new ApiResponse<>(200, "User found", user);
         return ResponseEntity.ok(apiResponse);
     }

@@ -16,6 +16,7 @@ public class UserDto {
     private String email;
     private String password;
     private String tel;
+    private List<Byte> image;
 //    List<Experience> experiencesCache;
 //    List<Education> educationsCache;
 }

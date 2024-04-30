@@ -1,17 +1,12 @@
 package org.group.portfolio.Service.Implementations;
 
+import org.apache.catalina.util.ErrorPageSupport;
 import org.group.portfolio.Dto.ProjectDto;
 import org.group.portfolio.Dto.SkillDto;
-import org.group.portfolio.Entities.Portfolio;
-import org.group.portfolio.Entities.Project;
-import org.group.portfolio.Entities.Skill;
-import org.group.portfolio.Entities.User;
+import org.group.portfolio.Entities.*;
 import org.group.portfolio.Exceptions.AppException;
 import org.group.portfolio.Response.ErrorMessages;
-import org.group.portfolio.Respository.PortfolioRepository;
-import org.group.portfolio.Respository.ProjectRepository;
-import org.group.portfolio.Respository.SkillRepository;
-import org.group.portfolio.Respository.UserRepository;
+import org.group.portfolio.Respository.*;
 import org.group.portfolio.Service.Interfaces.SkillService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +22,10 @@ public class SkillServiceImp implements SkillService {
     private UserRepository userRepository;
     @Autowired
     private PortfolioRepository portfolioRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
+    @Autowired
+    private ExperienceRepository experienceRepository;
     ModelMapper modelMapper = new ModelMapper();
 
     @Override
@@ -75,6 +74,16 @@ public class SkillServiceImp implements SkillService {
 //                portfolio.setSkills(skills);
 //                portfolioRepository.save(portfolio);
 //            }
+
+//            List<Project> projects = projectRepository.findAll();
+//            projects.forEach(project -> project.getSkills().removeIf(skill -> skill.getId().equals(id)));
+//            projectRepository.saveAll(projects);
+//
+//            List<Experience> experiences = experienceRepository.findAll();
+//            experiences.forEach(experience -> experience.getSkills().removeIf(skill -> skill.getId().equals(id)));
+//            experienceRepository.saveAll(experiences);
+
+
             skillRepository.deleteById(id);
             return id;
         } else {

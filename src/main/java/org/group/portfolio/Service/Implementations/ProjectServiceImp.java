@@ -35,7 +35,7 @@ public class ProjectServiceImp implements ProjectService {
         System.out.println(projectDto);
 
         Project project = modelMapper.map(projectDto, Project.class);
-        System.out.println("project :"+project);
+        System.out.println("project :"+project.getImages());
         User user = userRepository.findById(id).orElseThrow(() ->
                 new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
         project.setUser(user);

@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+
 @Document(collection = "Experience")
 @Data
 @AllArgsConstructor
@@ -24,7 +26,8 @@ public class Experience {
     private String description;
     private String[] responsibilities;
     private String[] achievements;
-    private String[] skills;
+    @DBRef
+    private List<Skill> skills;
     private String location;
     @DBRef
     private User user;

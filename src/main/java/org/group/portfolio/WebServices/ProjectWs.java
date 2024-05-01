@@ -36,34 +36,38 @@ public class ProjectWs {
 
         return projectImages;
     }
-    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ApiResponse<String>> createProject(@RequestPart("project") ProjectDto projectDto,
+    @PostMapping(value="/create",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<String>> createProject(@RequestPart("project") ProjectDto projectDto ,
                                                               @RequestPart("images") MultipartFile[] images,
-                                                              @RequestHeader("Authorization") String token) {
+                                                             @RequestHeader("Authorization") String token){
+
         // Input validation
         if (projectDto == null) {
             ApiResponse<String> badRequestResponse = new ApiResponse<>(400, "Bad Request", null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(badRequestResponse);
         }
-
+        System.out.println("validation");
         // Authorization validation
         if (!jwtUtil.validateToken(token)) {
             ApiResponse<String> unauthorizedResponse = new ApiResponse<>(401, "Unauthorized", null);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(unauthorizedResponse);
         }
 
+        System.out.println("token");
         try {
             String id = jwtUtil.getIdFromToken(token);
             projectDto.setImages(uploadImage(images));
             Project save = projectService.Create(projectDto, id);
-
+            System.out.println(save.getImages());
             ApiResponse<String> response = new ApiResponse<>(200, "Project Created successfully", save.getId());
             return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            // Handle exceptions appropriately
-            ApiResponse<String> errorResponse = new ApiResponse<>(500, "Internal Server Error", null);
+        }  catch (Exception e) {
+           System.out.println("Error creating project: "+e.getMessage());
+
+            ApiResponse<String> errorResponse = new ApiResponse<>(500, e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
+
     }
     @GetMapping("/{id}")
     public  ResponseEntity<ApiResponse<Project>> getUserById(@PathVariable("id") String id,@RequestHeader("Authorization") String token) {

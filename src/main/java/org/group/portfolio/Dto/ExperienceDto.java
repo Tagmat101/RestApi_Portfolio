@@ -8,6 +8,7 @@ import org.group.portfolio.Entities.Skill;
 import org.group.portfolio.Entities.User;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class ExperienceDto {
     private String description;
     private String[] responsibilities;
     private String[] achievements;
-    private String[] skills;
+    private List<Skill> skills;
     private String location;
     User user;
 }

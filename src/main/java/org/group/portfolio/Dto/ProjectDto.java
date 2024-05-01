@@ -17,7 +17,8 @@ public class ProjectDto {
     private String description;
     private Date startDate;
     private Date endDate;
-    private String[] skills;
+    private List<Skill> skills;
+
     private String[] responsibilities;
     private String[] achievements;
     private List<byte[]> images;

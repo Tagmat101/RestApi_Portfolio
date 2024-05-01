@@ -22,7 +22,8 @@ public class Project {
     private String description;
     private Date startDate;
     private Date endDate;
-    private String[] skills;
+    @DBRef
+    private List<Skill> skills;
     private String[] responsibilities;
     private String[] achievements;
     private List<byte[]> images;

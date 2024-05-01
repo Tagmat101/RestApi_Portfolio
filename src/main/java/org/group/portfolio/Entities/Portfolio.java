@@ -20,6 +20,7 @@ public class Portfolio
     private String color;
     private String name;
     private boolean visible;
+    private byte[] resume;
     @DBRef
     private User user;
     @DBRef
@@ -32,4 +33,5 @@ public class Portfolio
     List<Education> educations;
     @DBRef
     CategoriePort categorie;
+
 }

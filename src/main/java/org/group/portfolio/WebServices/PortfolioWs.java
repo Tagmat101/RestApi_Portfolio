@@ -28,6 +28,7 @@ public class PortfolioWs {
      @PostMapping("/create")
      public ResponseEntity<ApiResponse<Portfolio>> Create(@RequestBody PortfolioDto portfolioDto, @RequestHeader("Authorization") String token)
      {
+
          if(!jwtUtil.validateToken(token)){
              ApiResponse<Portfolio> notFoundResponse = new ApiResponse<>(401, "UnAuthorized", null);
              return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);

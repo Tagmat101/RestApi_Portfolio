@@ -18,6 +18,7 @@ public class PortfolioDto {
     private String name;
     private boolean visible;
     private CategoriePort categorie;
+    private byte[] resume;
     List<Experience> experiences;
     List<Project> projects;
     List<Education> educations;

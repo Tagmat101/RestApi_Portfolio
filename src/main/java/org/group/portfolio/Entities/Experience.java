@@ -19,6 +19,7 @@ public class Experience {
     @Id
     private String id;
     private String companyName;
+    private String companyLogo;
     private String jobTitle;
     private Date startDate;
     private String employmentType;

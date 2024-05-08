@@ -22,5 +22,6 @@ public class ProjectDto {
     private String[] responsibilities;
     private String[] achievements;
     private List<byte[]> images;
+    private String imageUrl;
 
 }

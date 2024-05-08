@@ -36,9 +36,8 @@ public class ProjectWs {
 
         return projectImages;
     }
-    @PostMapping(value="/create",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ApiResponse<String>> createProject(@RequestPart("project") ProjectDto projectDto ,
-                                                              @RequestPart("images") MultipartFile[] images,
+    @PostMapping("/create")
+    public ResponseEntity<ApiResponse<String>> createProject(@RequestBody ProjectDto projectDto ,
                                                              @RequestHeader("Authorization") String token){
 
         // Input validation
@@ -56,9 +55,7 @@ public class ProjectWs {
         System.out.println("token");
         try {
             String id = jwtUtil.getIdFromToken(token);
-            projectDto.setImages(uploadImage(images));
             Project save = projectService.Create(projectDto, id);
-            System.out.println(save.getImages());
             ApiResponse<String> response = new ApiResponse<>(200, "Project Created successfully", save.getId());
             return ResponseEntity.ok(response);
         }  catch (Exception e) {

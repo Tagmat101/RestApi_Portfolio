@@ -23,6 +23,7 @@ public class ExperienceDto {
     private String[] responsibilities;
     private String[] achievements;
     private List<Skill> skills;
+    private String companyLogo;
     private String location;
     User user;
 }

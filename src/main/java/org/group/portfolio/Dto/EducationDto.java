@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class EducationDto {
     private String institution;
+    private String institutionLogo;
     private String degree;
     private Date startDate;
     private Date endDate;

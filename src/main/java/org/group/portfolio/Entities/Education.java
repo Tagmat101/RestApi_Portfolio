@@ -17,6 +17,7 @@ import java.util.Date;
 public class Education {
     @Id
     private String id;
+    private String institutionLogo;
     private String institution;
     private String degree;
     private Date startDate;

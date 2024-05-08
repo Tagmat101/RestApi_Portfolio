@@ -27,6 +27,7 @@ public class Project {
     private String[] responsibilities;
     private String[] achievements;
     private List<byte[]> images;
+    private String imageUrl;
     @DBRef
     private User user;
 }

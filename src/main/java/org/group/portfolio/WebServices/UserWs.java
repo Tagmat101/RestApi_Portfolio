@@ -53,7 +53,7 @@ public class UserWs {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/")
     public ResponseEntity<ApiResponse<User>> GetUserById( @RequestHeader("Authorization") String token) {
         if(!jwtUtil.validateToken(token)){
             ApiResponse<User> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
@@ -64,5 +64,4 @@ public class UserWs {
         ApiResponse<User> apiResponse = new ApiResponse<>(200, "User found", user);
         return ResponseEntity.ok(apiResponse);
     }
-
  }

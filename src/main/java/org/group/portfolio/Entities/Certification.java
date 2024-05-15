@@ -21,7 +21,6 @@ public class Certification {
     private String id;
     private String name;
     private String organization;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String date;
     @Indexed(unique = true)
     private String url_cert;

@@ -4,20 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.group.portfolio.Entities.User;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Vector;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CertDto {
+public class CertificationDto {
     private String name;
     private String organization;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String issue_date;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String end_data;
+    private Date startDate;
+    private Date endDate;
     private String url_cert;
     User user;
 

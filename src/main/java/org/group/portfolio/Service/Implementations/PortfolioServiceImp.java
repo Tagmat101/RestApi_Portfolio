@@ -100,4 +100,12 @@ public class PortfolioServiceImp implements PortfolioService {
                 (() -> new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
         return portfolioRepository.findAllByUser(user);
     }
+    @Override
+    public long GetCountAllByUser(String token) {
+        String idUser = jwtUtil.getIdFromToken(token);
+        User user = userRepository.findById(idUser).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+
+        return portfolioRepository.count();
+    }
 }

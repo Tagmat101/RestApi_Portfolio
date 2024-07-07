@@ -82,4 +82,15 @@ public class PortfolioWs {
          ApiResponse<List<Portfolio>> response = new ApiResponse<>(200, "List of portfolios ", portfolios);
          return ResponseEntity.ok(response);
      }
+     @GetMapping("/all/count")
+     public ResponseEntity<ApiResponse<Long>> GetAllCount(@RequestHeader("Authorization") String token)
+     {
+         if(!jwtUtil.validateToken(token)){
+             ApiResponse<Long> notFoundResponse = new ApiResponse<>(401, "UnAuthorized", null);
+             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
+         }
+         long count = portfolioService.GetCountAllByUser(token);
+         ApiResponse<Long> response = new ApiResponse<>(200, "Count of portfolios", count);
+         return ResponseEntity.ok(response);
+     }
 }

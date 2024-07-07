@@ -11,4 +11,5 @@ public interface CategoriePortService  {
     public List<CategoriePort> GetAllByUserActive(String id);
     public CategoriePort Update(CategoriePortDto categoriePortDto,String token);
     public void Delete(String id);
+    public long GetCountByUser(String idUser);
 }

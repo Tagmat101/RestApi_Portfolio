@@ -57,6 +57,18 @@ public class EducationWs {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/all/count")
+    public ResponseEntity<ApiResponse<Long>>  getAllEducationsByUserCount(@RequestHeader("Authorization") String token) {
+        if(!jwtUtil.validateToken(token)){
+            ApiResponse<Long> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
+        }
+        String id = jwtUtil.getIdFromToken(token);
+        long countEducations = educationService.GetAllCountByUser(id);
+        ApiResponse<Long> response = new ApiResponse<>(200, "Education count", countEducations);
+        return ResponseEntity.ok(response);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Education>> updateEducation(@PathVariable("id") String id, @RequestBody EducationDto updatedEducationDto,@RequestHeader("Authorization") String token) {
         if(!jwtUtil.validateToken(token)){

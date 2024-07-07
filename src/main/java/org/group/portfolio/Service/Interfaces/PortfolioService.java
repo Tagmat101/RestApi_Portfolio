@@ -11,4 +11,5 @@ public interface PortfolioService {
     public Portfolio UpdatePortfolio(String id,PortfolioDto portfolioDto,String token);
     public  void DeletePortfolio(String id);
     public List<Portfolio> GetAllByUser(String token);
+    public long GetCountAllByUser(String token);
 }

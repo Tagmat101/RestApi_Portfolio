@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface ProjectRepository  extends MongoRepository<Project,String> {
     List<Project> findAllByUser(User user);
+    long countByUser(User user);
 }

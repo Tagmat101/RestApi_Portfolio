@@ -46,6 +46,17 @@ public class CategoriePortWs {
         ApiResponse< List<CategoriePort>> response = new ApiResponse<>(200, "CategoriePort List", categoriePortsList);
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/all/count")
+    public ResponseEntity<ApiResponse<Long>> getAllCategoriesCount(@RequestHeader("Authorization") String token) {
+        if(!jwtUtil.validateToken(token)){
+            ApiResponse<Long> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
+        }
+        String id = jwtUtil.getIdFromToken(token);
+        long countCategories = categoriePortService.GetCountByUser(id);
+        ApiResponse<Long> response = new ApiResponse<>(200, "Count categories ", countCategories);
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/all/active")
     public ResponseEntity<ApiResponse<List<CategoriePort>>>  getAllCategoriesActive(@RequestHeader("Authorization") String token) {

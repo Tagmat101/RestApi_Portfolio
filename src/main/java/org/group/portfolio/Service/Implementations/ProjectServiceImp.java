@@ -100,4 +100,11 @@ public class ProjectServiceImp implements ProjectService {
 
         return projectRepository.findAllByUser(user);
     }
+    @Override
+    public long GetCountProjectsAll(String id) {
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+
+        return projectRepository.countByUser(user);
+    }
 }

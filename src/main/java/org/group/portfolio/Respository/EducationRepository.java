@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface EducationRepository extends MongoRepository<Education,String> {
     List<Education> findAllByUser(User user);
+    long countByUser(User user);
 }

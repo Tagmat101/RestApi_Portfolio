@@ -10,4 +10,5 @@ import java.util.List;
 public interface PortfolioRepository extends MongoRepository<Portfolio,String> {
     public List<Portfolio> findAllByUser(User user);
     public List<Portfolio> findAllByCategorie(CategoriePort categoriePort);
+    public long countPortfoliosByUser(User user);
 }

@@ -88,6 +88,18 @@ public class ProjectWs {
         ApiResponse< List<Project>> response = new ApiResponse<>(200, "Project List", eduList);
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/all/count")
+    public ResponseEntity<ApiResponse<Long>>  getAllProjectsByUserCount(@RequestHeader("Authorization") String token) {
+        if(!jwtUtil.validateToken(token)){
+            ApiResponse<Long> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
+        }
+        String id = jwtUtil.getIdFromToken(token);
+        long countProjects = projectService.GetCountProjectsAll(id);
+        ApiResponse<Long> response = new ApiResponse<>(200, "count Projects", countProjects);
+        return ResponseEntity.ok(response);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Project>> updateProject(@PathVariable("id") String id, @RequestBody ProjectDto updatedProjectDto,@RequestHeader("Authorization") String token) {

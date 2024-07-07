@@ -86,4 +86,9 @@ public class CategoriePortServiceImp implements CategoriePortService {
             categoriePortRepository.delete(categoriePort);
         else throw new AppException("Can't delete this category it is related");
     }
+    public long GetCountByUser(String idUser) {
+        User user = userRepository.findById(idUser).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+        return categoriePortRepository.countByUser(user);
+    }
 }

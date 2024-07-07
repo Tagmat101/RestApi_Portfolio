@@ -13,5 +13,5 @@ public interface SkillService {
     public Skill Update(String idSkill, SkillDto SkillDto);
     public String Delete(String idSkill);
     public List<Skill> GetAllByUser(String idUser);
-
+    public long GetAllCountSkills(String idUser);
 }

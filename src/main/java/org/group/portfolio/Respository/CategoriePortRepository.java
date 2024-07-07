@@ -12,4 +12,5 @@ import java.util.List;
 public interface CategoriePortRepository extends MongoRepository<CategoriePort,String> {
     public List<CategoriePort> getByUser(User user);
     public List<CategoriePort> getByUserAndStateIsTrue(User user);
+    public long countByUser(User user);
 }

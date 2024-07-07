@@ -11,4 +11,5 @@ public interface EducationService {
     public Education Update(String id,EducationDto educationDto);
     public String Delete(String id);
     public List<Education> GetAllByUser(String id);
+    public long GetAllCountByUser(String id);
 }

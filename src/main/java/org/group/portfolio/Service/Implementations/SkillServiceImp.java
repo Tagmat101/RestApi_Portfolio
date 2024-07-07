@@ -97,4 +97,10 @@ public class SkillServiceImp implements SkillService {
 
         return skillRepository.findAllByUser(user);
     }
+    @Override
+    public long GetAllCountSkills(String idUser) {
+        User user = userRepository.findById(idUser).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+        return skillRepository.countByUser(user);
+    }
 }

@@ -13,4 +13,5 @@ public interface ProjectService {
     public Project Update(String id, ProjectDto projectDto);
     public String Delete(String id);
     public List<Project> GetAllByUser(String id);
+    public long GetCountProjectsAll(String id);
 }

@@ -10,4 +10,5 @@ import java.util.List;
 public interface SkillRepository extends MongoRepository<Skill,String> {
     List<Skill> findAllByUser(User user);
     void deleteById(String Id);
+    long countByUser(User user);
 }

@@ -89,6 +89,13 @@ public class EducationServiceImp implements EducationService {
 
         return educationRepository.findAllByUser(user);
     }
+    @Override
+    public long GetAllCountByUser(String id) {
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new AppException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
+
+        return educationRepository.countByUser(user);
+    }
     //    @Override
 //    public Education Delete(String id) {
 //        Assert.notNull(id, "Education ID must not be null");

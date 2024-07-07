@@ -79,5 +79,16 @@ public class SkillWs {
         String deletedID = skillService.Delete(id);
         return ResponseEntity.ok(new ApiResponse<>(200, "skill deleted successfully", deletedID));
     }
+    @GetMapping("/all/count")
+    public ResponseEntity<ApiResponse<Long>> GetCountSkills(@RequestHeader("Authorization") String token) {
+        if(!jwtUtil.validateToken(token)){
+            ApiResponse<Long> notFoundResponse = new ApiResponse<>(404, "UnAuthorized", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
+        }
+        String id = jwtUtil.getIdFromToken(token);
+        long countSkills = skillService.GetAllCountSkills(id);
+        System.out.println("Count skills  :" + countSkills);
+        return ResponseEntity.ok(new ApiResponse<>(200, "Skills Count", countSkills));
+    }
 
 }

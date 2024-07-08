@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /*
     * when getting data with postman it gets a portfolio with the User and that User has history of
@@ -79,6 +80,7 @@ public class PortfolioWs {
              return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundResponse);
          }
          List<Portfolio> portfolios = portfolioService.GetAllByUser(token);
+         System.out.println("data portfolios : " + portfolios);
          ApiResponse<List<Portfolio>> response = new ApiResponse<>(200, "List of portfolios ", portfolios);
          return ResponseEntity.ok(response);
      }
